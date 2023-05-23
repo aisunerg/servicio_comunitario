@@ -9,13 +9,7 @@ from django.views.generic.edit import FormView
 User = get_user_model()
 
 
-class FormularioRegistroUsuarioPersonalizado(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-
 class LoginView(FormView):
-    # url_seccess = reverze_lazy("")
     form_class = LoginForm
     template_name = "authentication_signin.html"
     # success_url = reverse_lazy('biblioteca:register-project')
@@ -37,8 +31,9 @@ class LoginView(FormView):
         
         return self.render_to_response(self.get_context_data(form=form, error="Username or password is incorrect"))
                
+        
 class LogoutView(FormView):
-
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('authentication:login')
+
