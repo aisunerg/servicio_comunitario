@@ -5,7 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 User = get_user_model()
 
+
 class FormularioRegistroUsuarioPersonalizado(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ["username", "email"]
