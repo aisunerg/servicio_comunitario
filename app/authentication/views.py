@@ -25,19 +25,17 @@ class LoginView(FormView):
     
     def post(self, request, *args, **kwargs):
         form = self.get_form()
-        print("➡ form :", form)
         if form.is_valid():
-            data = form.data
+            data = form.cleaned_data
             print("➡ data :", data)
             user = authenticate(email=data['email'], password=data['password'])
+            print("➡ user :", user)
             if user:
                 login(request,user)
                 # return redirect('authentication:colo')
                 return self.render_to_response(self.get_context_data(form=form))
-            
-                
-        else:
-            return self.render_to_response(self.get_context_data(form=form, error="Username or password is incorrect"))
+        
+        return self.render_to_response(self.get_context_data(form=form, error="Username or password is incorrect"))
                
 class LogoutView(FormView):
 
