@@ -1,19 +1,21 @@
 from django.shortcuts import render
 from django.views import View
 
+from biblioteca_SC.models import Project_SC
+
 
 # Create your views here.
 class IndexView(View):
     template_name = "index.main.html"
-    # model = Project_SC
+    model = Project_SC
 
     def get(self, request, *args, **kwargs):
-        # projectos = self.model.objects.all()
+        proyectos = self.model.objects.all()
 
-        # print("➡ projectos :", projectos[0].file.name)
-        # print("➡ projectos :", projectos[0].file.url)
+        print("➡ proyectos :", proyectos)
 
-        return render(request, self.template_name)
+        context = {"proyectos": proyectos}
+        return render(request, self.template_name, context=context)
 
     # def post(self, request, *args, **kwargs):
     #     return HttpResponse('POST request!')

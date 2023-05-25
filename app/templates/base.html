@@ -120,6 +120,7 @@
   </head>
 
   <body>
+    {% if not user.is_authenticated %}
     <!-- Offcanvas START -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
       <!-- Offcanvas header -->
@@ -174,7 +175,6 @@
                 placeholder="*********"
               />
             </div>
-
           </div>
         </form>
 
@@ -191,6 +191,7 @@
       </div>
     </div>
     <!-- Offcanvas END -->
+    {% endif %}
 
     <!-- ======================= Header START -->
     <header class="navbar-light navbar-sticky header-static">
@@ -198,7 +199,7 @@
       <nav class="navbar navbar-expand-xl">
         <div class="container">
           <!-- Logo START -->
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{% url 'main:home' %}">
             <img
               style="width: 150px; height: 80px"
               class="navbar-brand-item light-mode-item"
@@ -252,21 +253,26 @@
             </div>
             <!-- Nav Search END -->
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-
               <!-- Nav item 1 Inicio -->
               <li class="nav-item">
-                <a class="nav-link" href="shop-grid.html">Inicio</a>
+                <a class="nav-link" href="{% url 'main:home' %}">Inicio</a>
               </li>
 
               <!-- Nav item 2 Catalogo -->
               <li class="nav-item">
-                <a class="nav-link" href="shop-grid.html">Catalogo</a>
+                <a class="nav-link" href="{% url 'main:home' %}">Catalogo</a>
               </li>
 
+              {% if user.is_authenticated %}
               <!-- Nav item 3 Panel de control-->
               <li class="nav-item">
-                <a class="nav-link" href="contact-us.html">Panel</a>
+                <a
+                  class="nav-link"
+                  href="{% url 'biblioteca:register-project' %}"
+                  >Panel</a
+                >
               </li>
+              {% endif %}
             </ul>
           </div>
           <!-- Main navbar END -->
@@ -358,7 +364,9 @@
               </ul>
             </div>
             <!-- Dark mode options END -->
+
             <!-- Offcanvas menu toggler -->
+            {% if not user.is_authenticated %}
             <div class="nav-item position-relative ms-3">
               <a
                 class="nav-link btn btn-outline-light btn-round mb-0 fs-3"
@@ -373,6 +381,18 @@
                 ></i>
               </a>
             </div>
+            {% else %}
+            <div class="nav-item position-relative ms-3">
+              <a
+                class="nav-link btn btn-outline-light btn-round mb-0 fs-3"
+                href="{% url 'authentication:logout' %}"
+                role="button"
+              >
+                <i class="bi bi-box-arrow-in-left"></i>
+              </a>
+            </div>
+
+            {% endif %}
           </div>
         </div>
       </nav>
@@ -389,14 +409,40 @@
       <div class="container">
         <!-- About and Newsletter START -->
         <div class="row pt-3 pb-4">
-          <div class="col-md-3">
-            <img src="img/logo-footer.svg" alt="footer logo" />
+          <div class="col-md-4">
+            <img
+              style="width: 100%; height: 100%"
+              src="{% static 'img/unerg.svg' %}"
+              alt="footer logo"
+            />
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
             <p class="text-muted">
-              The next-generation blog, news, and magazine theme for you to
-              start sharing your stories today! This Bootstrap 5 based theme is
-              ideal for all types of sites that deliver the news.
+              Te presentamos nuestra nueva página web, dedicada a mostrar los
+              proyectos realizados en la Universidad Rómulo Gallegos, tanto de
+              pregrado como de postgrado y de servicio comunitario. Esta
+              plataforma brinda la oportunidad de compartir estos proyectos con
+              cualquier persona interesada en conocerlos.
+            </p>
+
+            <p class="text-muted">
+              En nuestra página, podrás encontrar una amplia variedad de
+              proyectos universitarios, todos ellos con información detallada
+              sobre su desarrollo y resultados. Además, ofrecemos la posibilidad
+              de filtrar los proyectos por categorías, como por ejemplo,
+              ciencias sociales, tecnología, medio ambiente, entre otras.
+            </p>
+
+            <p class="text-muted">
+              Nuestro objetivo es promover el conocimiento y la difusión de los
+              proyectos universitarios realizados en la Universidad Rómulo
+              Gallegos, y brindar un espacio en línea para que los estudiantes,
+              profesores, y la comunidad en general, puedan compartir sus
+              trabajos y experiencias.
+            </p>
+            <p class="text-muted">
+              ¡Te invitamos a explorar nuestra página y conocer los proyectos
+              más destacados de nuestra universidad!
             </p>
           </div>
         </div>
