@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "gdstorage",
     "biblioteca_SC",
     "authentication",
+    "main"
 ]
 
 MIDDLEWARE = [
