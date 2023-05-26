@@ -2,7 +2,7 @@
 <main>
   <!-- ======================= Main START -->
   <section class="pt-3 pt-lg-5">
-    <div class="container">
+    <div class="container-fluid px-5">
       <div class="row">
         <!-- Title -->
         <div class="mb-4">
@@ -231,7 +231,6 @@
               </div>
             </div>
 
-
             <!-- Select -->
             <div class="col-md-6 col-xl-6">
               <select class="form-select" aria-label="Default select example">
@@ -257,10 +256,19 @@
 
           <!-- Project START -->
           <div class="row g-4">
+            {% if proyectos|length > 0 %}
+              {% for proyecto in proyectos %}
+              
+              {% endfor %}
+            {% else %}
+              <h1>No ahi proyectos cargados</h1>
+            {% endif %}
+            
+
             <!-- Project item START -->
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-12 col-md-12">
               <div class="card border p-3 h-100">
-                <div class="position-relative">
+                {% comment %} <div class="position-relative">
                   <!-- Image -->
                   <a href="shop-detail.html" class="position-relative z-index-9"
                     ><img class="card-img" src="img/02.png" alt=""
@@ -268,22 +276,65 @@
                   <!-- Overlay -->
                   <div class="card-img-overlay p-0">
                     <div>
-                      <span class="badge text-bg-success">Agregado recientemente</span>
+                      <span class="badge text-bg-success"
+                        >Agregado recientemente</span
+                      >
+                    </div>
+                  </div>
+                </div> {% endcomment %}
+
+                <!-- Card body -->
+                <div class="card-body p-3 px-0">
+                  <!-- Title -->
+                  <h5 class="card-title">
+                    <a href="shop-detail.html"
+                      >Biblioteca Digital para el Resguardo y Preservación de
+                      Proyectos en la Universidad Nacional Experimental Rómulo
+                      Gallegos</a
+                    >
+                  </h5>
+                  <hr />
+
+                  <!-- accordion -->
+                  <div class="accordion" id="project1">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-heading1">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#flush-collapse1"
+                          aria-expanded="false"
+                          aria-controls="flush-collapse1"
+                        >
+                          Mas detalles
+                        </button>
+                      </h2>
+                      <div
+                        id="flush-collapse1"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="flush-heading1"
+                        data-bs-parent="#project1"
+                      >
+                        <div class="accordion-body">
+                          <h6 class="card-subtitle mb-2 text-success">Por:</h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Tematica:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Ubicado:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Periodo:
+                          </h6>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- Card body -->
-                <div class="card-body text-center p-3 px-0">
-                  <!-- Title -->
-                  <h5 class="card-title">
-                    <a href="shop-detail.html">Biblioteca Digital para el Resguardo y Preservación de Proyectos en la Universidad Nacional Experimental Rómulo Gallegos</a>
-                  </h5>
-                </div>
-                
                 <!-- Card footer -->
                 <div class="card-footer text-center p-0">
-                    <h6 class="mb-0 text-success">Autor: Isaias Pinto</h6>
                   <!-- Button -->
                   <a href="#" class="btn btn-sm btn-primary-soft mb-0 fs-6"
                     ><i class="bi bi-eye-fill me-2"></i>Ver el proyecto</a
@@ -294,26 +345,60 @@
             <!-- Project item END -->
 
             <!-- Project item START -->
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-12 col-md-12">
               <div class="card border p-3 h-100">
-                <div class="position-relative">
-                  <!-- Image -->
-                  <a href="shop-detail.html" class="position-relative z-index-9"
-                    ><img class="card-img" src="img/02.png" alt=""
-                  /></a>
-                </div>
-
+                
                 <!-- Card body -->
-                <div class="card-body text-center p-3 px-0">
+                <div class="card-body p-3 px-0">
                   <!-- Title -->
                   <h5 class="card-title">
-                    <a href="shop-detail.html">Fortalecimiento del servicio comunitario en Ingeniería en Sistemas a través de una landing page: caso de estudio en la UNERG</a>
+                    <a href="shop-detail.html"
+                      >Fortalecimiento del servicio comunitario en Ingeniería en
+                      Sistemas a través de una landing page: caso de estudio en
+                      la UNERG</a
+                    >
                   </h5>
+
+                  <!-- accordion -->
+                  <div class="accordion" id="project2">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-heading2">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#flush-collapse2"
+                          aria-expanded="false"
+                          aria-controls="flush-collapse2"
+                        >
+                          Mas detalles
+                        </button>
+                      </h2>
+                      <div
+                        id="flush-collapse2"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="flush-heading2"
+                        data-bs-parent="#project2"
+                      >
+                        <div class="accordion-body">
+                          <h6 class="card-subtitle mb-2 text-success">Por:</h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Tematica:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Ubicado:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Periodo:
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
+
                 <!-- Card footer -->
                 <div class="card-footer text-center p-0">
-                    <h6 class="mb-0 text-success">Autor: Isaias Pinto</h6>
                   <!-- Button -->
                   <a href="#" class="btn btn-sm btn-primary-soft mb-0 fs-6"
                     ><i class="bi bi-eye-fill me-2"></i>Ver el proyecto</a
@@ -324,26 +409,58 @@
             <!-- Project item END -->
 
             <!-- Project item START -->
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-12 col-md-12">
               <div class="card border p-3 h-100">
-                <div class="position-relative">
-                  <!-- Image -->
-                  <a href="shop-detail.html" class="position-relative z-index-9"
-                    ><img class="card-img" src="img/02.png" alt=""
-                  /></a>
-                </div>
-
+                
                 <!-- Card body -->
-                <div class="card-body text-center p-3 px-0">
+                <div class="card-body p-3 px-0">
                   <!-- Title -->
                   <h5 class="card-title">
-                    <a href="shop-detail.html">Optimización del proceso de enseñanza y aprendizaje en una escuela</a>
+                    <a href="shop-detail.html"
+                      >Optimización del proceso de enseñanza y aprendizaje en
+                      una escuela</a
+                    >
                   </h5>
+                  <!-- accordion -->
+                  <div class="accordion" id="project3">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-heading3">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#flush-collapse3"
+                          aria-expanded="false"
+                          aria-controls="flush-collapse3"
+                        >
+                          Mas detalles
+                        </button>
+                      </h2>
+                      <div
+                        id="flush-collapse3"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="flush-heading3"
+                        data-bs-parent="#project3"
+                      >
+                        <div class="accordion-body">
+                          <h6 class="card-subtitle mb-2 text-success">Por:</h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Tematica:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Ubicado:
+                          </h6>
+                          <h6 class="card-subtitle mb-2 text-success">
+                            Periodo:
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
+
                 <!-- Card footer -->
                 <div class="card-footer text-center p-0">
-                    <h6 class="mb-0 text-success">Autor: Isaias Pinto</h6>
                   <!-- Button -->
                   <a href="#" class="btn btn-sm btn-primary-soft mb-0 fs-6"
                     ><i class="bi bi-eye-fill me-2"></i>Ver el proyecto</a
@@ -352,7 +469,6 @@
               </div>
             </div>
             <!-- Project item END -->
-
 
             <!-- Pagination START -->
             <div class="col-12">
@@ -365,7 +481,7 @@
                   class="pagination pagination-bordered justify-content-center d-inline-block d-lg-flex"
                 >
                   <li class="page-item">
-                    <a class="page-link" href="#">First</a>
+                    <a class="page-link" href="#">Primero</a>
                   </li>
                   <li class="page-item">
                     <a class="page-link" href="#">1</a>
@@ -377,13 +493,13 @@
                     <a class="page-link" href="#">..</a>
                   </li>
                   <li class="page-item">
-                    <a class="page-link" href="#">22</a>
+                    <a class="page-link" href="#">9</a>
                   </li>
                   <li class="page-item">
-                    <a class="page-link" href="#">23</a>
+                    <a class="page-link" href="#">10</a>
                   </li>
                   <li class="page-item">
-                    <a class="page-link" href="#">Last</a>
+                    <a class="page-link" href="#">Ultimo</a>
                   </li>
                 </ul>
               </nav>
@@ -391,7 +507,6 @@
             <!-- Pagination END -->
           </div>
           <!-- Project END -->
-
         </div>
         <!-- Main part END -->
       </div>
