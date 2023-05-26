@@ -21,9 +21,7 @@ class LoginView(FormView):
         form = self.get_form()
         if form.is_valid():
             data = form.cleaned_data
-            print("➡ data :", data)
             user = authenticate(email=data['email'], password=data['password'])
-            print("➡ user :", user)
             if user:
                 login(request,user)
                 # return redirect('authentication:colo')
