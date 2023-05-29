@@ -256,12 +256,8 @@
 
           <!-- Project START -->
           <div class="row g-4">
-          {% set proyectos_lista = proyectos.all %}
-          {% set proyectos_paginados = proyectos_lista|batch(10) %}
             {% if proyectos|length > 0 %}
-              {% for proyectos in proyectos_paginados %}
-                {% for proyecto in proyectos %}
-
+              {% for proyecto in proyectos %}
                             <!-- Project item START -->
               <div class="col-sm-12 col-md-12">
                 <div class="card border p-3 h-100">
@@ -326,42 +322,41 @@
               
             {% endif %}
             
-
-            <!-- Pagination START -->
-            <div class="col-12">
-              <nav
-                class="d-flex justify-content-center"
-                aria-label="navigation"
-              >
-                <!-- Pagination 1 2 3  -->
-                <ul
-                  class="pagination pagination-bordered justify-content-center d-inline-block d-lg-flex"
-                >
-                  <li class="page-item">
-                    <a class="page-link" href="#">Primero</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#">..</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">9</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">10</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">Ultimo</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <!-- Pagination END -->
+                <!-- Pagination START -->
+                <div class="col-12">
+                  <nav
+                    class="d-flex justify-content-center"
+                    aria-label="navigation"
+                  >
+                    <!-- Pagination 1 2 3  -->
+                    <ul
+                      class="pagination pagination-bordered justify-content-center d-inline-block d-lg-flex"
+                    >
+                      <li class="page-item">
+                        {% if proyectos.has_previous %}
+                        <a class="page-link" href="?pagina=1"> Inicio </a>
+                        {% endif %}
+                      </li>
+                      <li class="page-item">
+                        {% if proyectos.has_previous %}
+                        <a class="page-link" href="?pagina={{ proyectos.previous_page_number }}">Anterior</a>
+                        {% endif %}
+                      </li>
+                      <li class="page-item active">
+                        <a class="page-link" href="#"> Página {{ proyectos.number }} / {{ proyectos.paginator.num_pages }} </a>
+                      </li>
+                      <li class="page-item">
+                        {% if proyectos.has_next %}
+                          <a class="page-link" href="?pagina={{ proyectos.next_page_number }}"> Siguiente </a>
+                        {% endif %}
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?pagina={{ proyectos.paginator.num_pages }}"> Última </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <!-- Pagination END -->
           </div>
           <!-- Project END -->
         </div>
