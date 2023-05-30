@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "gdstorage",
+    "widget_tweaks",
     "biblioteca_SC",
     "authentication",
-    "main"
+    "main",
 ]
 
 MIDDLEWARE = [

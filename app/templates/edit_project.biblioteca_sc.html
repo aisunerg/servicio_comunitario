@@ -49,87 +49,18 @@
               <div class="card-body">
                 <!-- Project title -->
                 <div class="mb-3">
-                  <label class="form-label">Titulo</label>
-                  {{ form.titulo|add_class:"form-control" }}
+                  <label class="form-label">Projecto</label>
+                  {{ form.projects|add_class:"form-control" }}
                 </div>
-                <!-- Project author -->
-                <div class="mb-3">
-                  <label class="form-label">Autor/res</label>
-                  {{ form.autor|add_class:"form-control" }}
-                </div>
-                <!-- Project tutor -->
-                <div class="mb-3">
-                  <label class="form-label">Tutor/res</label>
-                  {{ form.tutor|add_class:"form-control" }}
-                </div>
-                <!-- Project period -->
-                <div class="mb-3">
-                  <label class="form-label">Periodo</label>
-                  {{ form.periodo|add_class:"form-control" }}
-                </div>
-                <!-- Project theme -->
-                <div class="mb-3">
-                  <label class="form-label">Tematica</label>
-                  {{ form.tematica|add_class:"form-control" }}
-                </div>
-                <!-- Project file -->
-                <div class="mb-3">
-                  <label class="form-label">Documento</label>
-                  {{ form.file|add_class:"form-control" }}
-                </div>
-                <!-- Project summary -->
-                <div class="mb-3">
-                  <label class="form-label">Resumen</label>
-                  {{ form.resumen|add_class:"form-control"|attr:"rows:5" }}
-                </div>
-                <!-- Project service_location -->
-                <div class="mb-3">
-                  <label class="form-label">Ubicacion del servicio</label>
-                  {{ form.ubicacion_servicio|add_class:"form-control" }}
-                </div>
-                <!-- Save button -->
+               
+                <!-- Go button -->
                 <div class="d-flex justify-content-end mt-4">
-                  <button type="submit" class="btn btn-primary">Subir proyecto</button>
+                  <button type="submit" class="btn btn-primary">Ir a editar</button>
                 </div>
               </div>
             </form>
-            <!-- Profile END -->
-            <!-- Update password START -->
-            <div class="card border">
-              <div class="card-header border-bottom p-3">
-                <h5 class="card-header-title mb-0">Update password</h5>
-              </div>
-              <div class="card-body">
-                <div class="mb-3">
-                  <label class="form-label">Current password</label>
-                  <input class="form-control"
-                         type="password"
-                         placeholder="Enter current password">
-                </div>
-                <!-- New password -->
-                <div class="mb-3">
-                  <label class="form-label" id="psw-strength-message"></label>
-                  <div class="input-group">
-                    <input class="form-control fakepassword"
-                           type="password"
-                           id="psw-input"
-                           placeholder="Enter new password">
-                    <span class="input-group-text p-0">
-                      <i class="fakepasswordicon far fa-eye cursor-pointer p-2 w-40px"></i>
-                    </span>
-                  </div>
-                  <div class="rounded mt-1" id="psw-strength"></div>
-                </div>
-                <!-- New password -->
-                <div>
-                  <label class="form-label">Confirm new password</label>
-                  <input class="form-control" type="password" placeholder="Enter new password">
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                  <a href="#" class="btn btn-primary">Change password</a>
-                </div>
-              </div>
-            </div>
+
+            
           </div>
           <!-- Left sidebar END -->
           <!-- Right sidebar START -->

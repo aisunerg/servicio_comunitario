@@ -18,7 +18,7 @@ def get_drive_service():
 
 def change_file_settings(service, file_id):
     try:
-        file_metadata = {"copyRequiresWriterPermission": True, "viewersCanCopyContent": False, "writersCanShare": False}
+        file_metadata = {"copyRequiresWriterPermission": True, "viewersCanCopyContent": False, "writersCanShare": True}
         service.files().update(fileId=file_id, body=file_metadata).execute()
     except Exception as e:
         print("➡ Fallo en :", e)
