@@ -103,7 +103,7 @@
   <body>
     {% if not user.is_authenticated %}
       <!-- Offcanvas START -->
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
+      <div class="offcanvas offcanvas-end {{ showFormLogin|default_if_none:'' }}" tabindex="-1" id="offcanvasMenu">
         <!-- Offcanvas header -->
         <div class="offcanvas-header justify-content-between border-bottom px-3">
           <h3 class="mb-0">Ingrese a su cuenta</h3>

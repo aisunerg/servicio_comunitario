@@ -13,21 +13,28 @@ class IndexView(View):
     form_login = LoginForm
     form_filter1 = None
     form_filter2 = None
-    row_for_page = 2
+    row_for_page = 10
 
     template_name = "index.main.html"
     model = Project_SC
 
     def get_projects(self, request):
-        proyectos_list = self.model.objects.all()
+        proyectos_list = self.model.objects.get_queryset().order_by("periodo")
         paginator = Paginator(proyectos_list, self.row_for_page)
         pagina = request.GET.get("pagina")
         return paginator.get_page(pagina)
 
     def get(self, request, *args, **kwargs):
+        context = {}
+        if request.GET.get("next"):
+            context["showFormLogin"] = "show"
+
         form_login = self.form_login()
         proyectos = self.get_projects(request)
-        context = {"proyectos": proyectos, "form_login": form_login}
+
+        context["form_login"] = form_login
+        context["proyectos"] = proyectos
+
         return render(request, self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):

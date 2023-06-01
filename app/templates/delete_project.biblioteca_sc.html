@@ -49,52 +49,15 @@
               <div class="card-body">
                 <!-- Project title -->
                 <div class="mb-3">
-                  <label class="form-label">Titulo</label>
-                  {{ form.titulo|add_class:"form-control" }}
+                  <label class="form-label">Seleccione un proyecto</label>
+                  {{ form.projects|add_class:"form-control" }}
                 </div>
-                <!-- Project author -->
-                <div class="mb-3">
-                  <label class="form-label">Autor/res</label>
-                  {{ form.autor|add_class:"form-control" }}
-                </div>
-                <!-- Project tutor -->
-                <div class="mb-3">
-                  <label class="form-label">Tutor/res</label>
-                  {{ form.tutor|add_class:"form-control" }}
-                </div>
-                <!-- Project period -->
-                <div class="mb-3">
-                  <label class="form-label">Periodo</label>
-                  {{ form.periodo|add_class:"form-control" }}
-                </div>
-                <!-- Project theme -->
-                <div class="mb-3">
-                  <label class="form-label">Tematica</label>
-                  {{ form.tematica|add_class:"form-control" }}
-                </div>
-                <!-- Project file -->
-                <div class="mb-3">
-                  <label class="form-label">Documento</label>
-                  {{ form.file|add_class:"form-control" }}
-                </div>
-                <!-- Project summary -->
-                <div class="mb-3">
-                  <label class="form-label">Resumen</label>
-                  {{ form.resumen|add_class:"form-control"|attr:"rows:5" }}
-                </div>
-                <!-- Project service_location -->
-                <div class="mb-3">
-                  <label class="form-label">Ubicacion del servicio</label>
-                  {{ form.ubicacion_servicio|add_class:"form-control" }}
-                </div>
-                <!-- Save button -->
+                <!-- Go button -->
                 <div class="d-flex justify-content-end mt-4">
-                  <button type="submit" class="btn btn-primary">Subir proyecto</button>
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
                 </div>
               </div>
             </form>
-            <!-- Profile END -->
-
           </div>
           <!-- Left sidebar END -->
           <!-- Right sidebar START -->
@@ -106,15 +69,16 @@
               </div>
               <div class="card-body">
                 <div class="flex flex-column d-flex">
-                  <a href="{% url 'biblioteca:register-project' %}" class="btn btn-outline-primary">Cargar Proyecto</a>
-                  <a href="{% url 'biblioteca:edit-project' %}" class="btn btn-outline-primary">Editar Proyecto</a>
-                  <a href="{% url 'biblioteca:delete-project' %}" class="btn btn-outline-danger">Borrar Proyecto</a>
-
+                  <a href="{% url 'biblioteca:register-project' %}"
+                     class="btn btn-outline-primary">Cargar Proyecto</a>
+                  <a href="{% url 'biblioteca:edit-project' %}"
+                     class="btn btn-outline-primary">Editar Proyecto</a>
+                  <a href="{% url 'biblioteca:delete-project' %}"
+                     class="btn btn-outline-danger">Borrar Proyecto</a>
                 </div>
               </div>
             </div>
             <!-- Profile Setting END -->
-
           </div>
           <!-- Right sidebar END -->
         </div>

@@ -2,6 +2,10 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import FormView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .forms import EditProjectForm, RegisterProjectForm
@@ -9,7 +13,7 @@ from .models import Project_SC
 
 
 # Create your views here.
-class RegisterProjectView(FormView):
+class RegisterProjectView(LoginRequiredMixin, FormView):
     form_class = RegisterProjectForm
     model = Project_SC
     template_name = "register_project.biblioteca_sc.html"
@@ -76,7 +80,7 @@ class RegisterProjectView(FormView):
         return redirect("biblioteca:register-project-edit", id=id)
 
 
-class EditProjectView(View):
+class EditProjectView(LoginRequiredMixin, View):
     # success_url = reverse_lazy("biblioteca:register-project-edit")
     success_url = "biblioteca:register-project-edit"
     template_name = "edit_project.biblioteca_sc.html"
@@ -98,17 +102,24 @@ class EditProjectView(View):
         return render(request, self.template_name, {"form": form})
 
 
-class IndexView(View):
-    template_name = "index.biblioteca_sc.html"
+class DeleteProjectView(LoginRequiredMixin, View):
+    # success_url = reverse_lazy("biblioteca:register-project-edit")
     model = Project_SC
+    success_url = "biblioteca:delete-project"
+    template_name = "delete_project.biblioteca_sc.html"
 
     def get(self, request, *args, **kwargs):
-        projectos = self.model.objects.all()
+        form = EditProjectForm(request=request)
+        return render(request, self.template_name, {"form": form})
 
-        print("➡ projectos :", projectos[0].file.name)
-        print("➡ projectos :", projectos[0].file.url)
+    def post(self, request, *args, **kwargs):
+        form = EditProjectForm(request.POST, request=request)
+        if form.is_valid():
+            data = form.cleaned_data
 
-        return render(request, self.template_name)
+            # return redirect(self.success_url, id=data["projects"].id)
+            self.model.objects.get(id=data["projects"].id).delete()
+            print("➡ Se elimino correctamente")
+            # Save the form and redirect
 
-    # def post(self, request, *args, **kwargs):
-    #     return HttpResponse('POST request!')
+        return redirect(self.success_url)

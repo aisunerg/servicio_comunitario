@@ -17,8 +17,3 @@ class EditProjectForm(forms.Form):
             self.fields["projects"].queryset = Project_SC.objects.filter(coordinador=self.request.user)
 
     projects = forms.ModelChoiceField(queryset=Project_SC.objects.none())
-
-    # class Meta:
-    #     model = Project_SC
-    #     fields = ["titulo", "autor", "tematica", "tutor", "periodo", "file", "resumen", "ubicacion_servicio"]
-    # fields = ["titulo", "autor", "tematica", "tutor", "periodo", "area", "tipo_proyecto", "file", "resumen", "ubicacion_servicio"]
