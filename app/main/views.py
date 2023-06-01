@@ -6,12 +6,12 @@ from django.core.paginator import Paginator
 from biblioteca_SC.models import Project_SC
 from biblioteca_SC.utils.driver_connection import get_id_from_url
 from authentication.forms import LoginForm
-
+from .forms import FilterForm
 
 # Create your views here.
 class IndexView(View):
     form_login = LoginForm
-    form_filter1 = None
+    form_filter1 = FilterForm
     form_filter2 = None
     row_for_page = 10
 
@@ -29,17 +29,28 @@ class IndexView(View):
         if request.GET.get("next"):
             context["showFormLogin"] = "show"
 
+        form_filter1 = self.form_filter1()
         form_login = self.form_login()
         proyectos = self.get_projects(request)
 
         context["form_login"] = form_login
         context["proyectos"] = proyectos
-
+        context["form_filter1"] = form_filter1
         return render(request, self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
+        context = {}
+
         form_login = self.form_login(request.POST)
+        form_filter1 = self.form_filter1(request.POST)
+        context["form_login"] = form_login
+        context["form_filter1"] = form_filter1
+
         proyectos = self.get_projects(request)
+
+        if form_filter1.is_valid():
+            data = form_filter1.cleaned_data
+            proyectos = self.model.objects.filter(area__in=data["areas"])
 
         if form_login.is_valid():
             data = form_login.cleaned_data
@@ -47,11 +58,13 @@ class IndexView(View):
             if user:
                 login(request, user)
                 return redirect("main:home")
+            
+        context["proyectos"] = proyectos
+        return render(request, self.template_name, context=context)
+        # return redirect("main:home")
 
-            context = {"proyectos": proyectos, "form_login": form_login}
-            return render(request, self.template_name, context=context)
+    
 
-        return redirect("main:home")
 
     # def post(self, request, *args, **kwargs):
     #     return HttpResponse('POST request!')
