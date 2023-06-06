@@ -19,6 +19,5 @@ class FilterForm(forms.Form):
         queryset = Area.objects.all(), # not optional, use .all() if unsure
         widget  = forms.CheckboxSelectMultiple,
     )
-
     #tematica = forms.ModelChoiceField(queryset=Area.objects.none())
     # periodo = forms.ModelChoiceField(queryset=Area.objects.none())    

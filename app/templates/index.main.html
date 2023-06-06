@@ -141,29 +141,58 @@
           </aside>
           <!-- Filter END -->
           <!-- Main part START -->
-          <div class="col-xl-9">
+          <div class="col-xl-9" >
             <!-- Search filter START -->
-            <form class="row g-2 g-xl-4 mb-4">
+            <form method="get" class="row g-2 g-xl-4 mb-4">
               <!-- Search -->
-              <div class="col-xl-6">
-                <div class="rounded position-relative">
-                  <input class="form-control pe-5"
-                         type="search"
-                         placeholder="Buscar proyectos por nombre o palabra clave..."
-                         aria-label="Search" />
-                  <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
-                          type="submit">
-                    <i class="bi bi-search fs-5"> </i>
-                  </button>
+                <div class="col-xl-8" id="search-results">
+                  <div class="rounded position-relative">
+                    <input class="form-control pe-5"
+                      name="q"
+                      type="search"
+                      placeholder="Buscar proyectos por nombre o palabra clave..."
+                      aria-label="Search"/>
+                      <button class="btn bg-transparent border-0 px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
+                      type="submit">
+                      <i class="bi bi-search fs-5"> </i>
+                    </button>
+                    <br>
+                    {% for proyecto in filter_proyectos %}
+                    <div class="col-sm-12 col-md-12">
+                      <div class="card border p-3 h-100">
+                        <!-- Title -->
+                        <h5 class="card-title">{{ proyecto.titulo }}</h5>
+                        <hr />
+                        <!-- accordion -->
+                        <div class="accordion" id="project-{{ proyecto.id }}">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading-{{ proyecto.id }}">
+                              <button class="accordion-button collapsed"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#flush-collapse-{{ proyecto.id }}"
+                                      aria-expanded="false"
+                                      aria-controls="flush-collapse-{{ proyecto.id }}">Mas detalles</button>
+                            </h2>
+                            <div id="flush-collapse-{{ proyecto.id }}"
+                                class="accordion-collapse collapse"
+                                aria-labelledby="flush-heading-{{ proyecto.id }}"
+                                data-bs-parent="#project-{{ proyecto.id }}">
+                              <div class="accordion-body">
+                                <h6 class="card-subtitle mb-2 text-success">Por: {{ proyecto.autor }}</h6>
+                                <h6 class="card-subtitle mb-2 text-success">Tematica: {{ proyecto.tematica }}</h6>
+                                <h6 class="card-subtitle mb-2 text-success">Ubicado: {{ proyecto.area }}</h6>
+                                <h6 class="card-subtitle mb-2 text-success">Periodo: {{ proyecto.periodo }}</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                        {% endfor %}
+                  </div>
                 </div>
-              </div>
               <!-- Select -->
-              <div class="col-md-6 col-xl-6">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected="">Ordenar por</option>
-                  <option value="1">Nombre</option>
-                </select>
-              </div>
               <div class="col-md-6 col-xl-5 d-grid d-xl-none">
                 <!-- Filter offcanvas button -->
                 <button class="btn btn-primary-soft btn-primary-check mb-0"
@@ -261,4 +290,44 @@
     </section>
     <!-- ======================= Main END -->
   </main>
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const searchInput = document.getElementById('searchInput');
+    const searchQuery = searchInput.value;
+
+    if (searchQuery.length > 0) {
+      // Realizar la búsqueda de proyectos aquí
+    }
+    async function searchProjects(searchQuery) {
+    const response = await fetch(`/api/search/?query=${encodeURIComponent(searchQuery)}`);
+    const projects = await response.json();
+
+    // Mostrar los resultados de búsqueda aquí
+    }
+
+    // ... (código anterior)
+
+      if (searchQuery.length > 0) {
+        searchProjects(searchQuery);
+      }
+    });
+    function displaySearchResults(projects) {
+      const searchResults = document.getElementById('searchResults');
+      searchResults.innerHTML = '';
+
+      projects.forEach(project => {
+        const listItem = document.createElement('li');
+        listItem.textContent = project.name;
+        searchResults.appendChild(listItem);
+      });
+    }
+
+    // ... (código anterior)
+
+    if (searchQuery.length > 0) {
+      searchProjects(searchQuery);
+      displaySearchResults(projects);
+    }
+  </script>
 {% endblock content %}

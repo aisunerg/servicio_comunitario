@@ -2,6 +2,10 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.shortcuts import get_list_or_404, HttpResponse
+from django.db.models import Q
+from django.core import serializers
 
 from biblioteca_SC.models import Project_SC
 from biblioteca_SC.utils.driver_connection import get_id_from_url
@@ -23,6 +27,8 @@ class IndexView(View):
         paginator = Paginator(proyectos_list, self.row_for_page)
         pagina = request.GET.get("pagina")
         return paginator.get_page(pagina)
+    
+
 
     def get(self, request, *args, **kwargs):
         context = {}
@@ -87,4 +93,21 @@ class DocumentDetailView(View):
             file_url = None
 
         context = {"form_login": form_login, "proyecto": proyecto, "file_url": file_url}
+        return render(request, self.template_name, context=context)
+    
+class SearchResultsView(View):
+    template_name = "index.main.html"
+    model = Project_SC
+
+    def get(self, request, *args, **kwargs):
+
+        query = kwargs["q"]
+
+        filter_proyectos = Project_SC.objects.filter(titulo__icontains=query)
+
+        context = {'filter_proyectos':filter_proyectos}
+        # query = self.request.GET.get("texto")
+
+
+        
         return render(request, self.template_name, context=context)
