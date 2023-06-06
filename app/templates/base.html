@@ -99,11 +99,18 @@
           rel="stylesheet"
           type="text/css"
           href="{% static 'css/style.css' %}" />
+    <!-- Toasts CSS -->
+    <link id="style-switch"
+          rel="stylesheet"
+          type="text/css"
+          href="{% static 'libs/toastr/toastr.min.css' %}" />
   </head>
   <body>
     {% if not user.is_authenticated %}
       <!-- Offcanvas START -->
-      <div class="offcanvas offcanvas-end {{ showFormLogin|default_if_none:'' }}" tabindex="-1" id="offcanvasMenu">
+      <div class="offcanvas offcanvas-end {{ showFormLogin|default_if_none:'' }}"
+           tabindex="-1"
+           id="offcanvasMenu">
         <!-- Offcanvas header -->
         <div class="offcanvas-header justify-content-between border-bottom px-3">
           <h3 class="mb-0">Ingrese a su cuenta</h3>
@@ -318,7 +325,7 @@
               <!-- Links -->
               <ul class="nav text-center text-sm-end justify-content-center justify-content-center mt-3 mt-md-0">
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Hecho por </a>
+                  <a class="nav-link" href="#">Hecho por</a>
                 </li>
               </ul>
             </div>
@@ -332,9 +339,43 @@
       <i class="bi bi-arrow-up-short"></i>
     </div>
     <!-- ======================= JS libraries, plugins and custom scripts -->
+    <!-- JQuery JS -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <!-- Template Functions -->
     <script src="{% static 'js/functions.js' %}"></script>
+    <!-- Toasts js -->
+    <script src="{% static 'libs/toastr/toastr.min.js' %}"></script>
+    {% if messages %}
+      <script>
+      // Message JS 
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "10000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+
+        {% for message in messages %}
+          {% if message.tags %}toastr["{{ message.tags|safe }}"](" ", "{{ message|safe }}"){% endif %}
+        {% endfor %}
+
+      </script>
+    {% endif %}
+    {% block custom_script %}
+      <!-- Custom JS -->
+    {% endblock custom_script %}
   </body>
 </html>

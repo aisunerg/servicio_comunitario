@@ -43,9 +43,11 @@ class Project_SC(models.Model):
 def delete_file_before(sender, instance, **kwargs):
     try:
         obj = sender.objects.get(id=instance.id)
-        file_id = get_id_from_url(obj.file.url)
-        service = get_drive_service()
-        delete_file(service, file_id)
+
+        if obj.file.url:
+            file_id = get_id_from_url(obj.file.url)
+            service = get_drive_service()
+            delete_file(service, file_id)
 
     except:
         pass
@@ -53,9 +55,10 @@ def delete_file_before(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Project_SC)
 def change_config_file_drive(sender, instance, **kwargs):
-    file_id = get_id_from_url(instance.file.url)
-    service = get_drive_service()
-    change_file_settings(service, file_id)
+    if instance.file.url:
+        file_id = get_id_from_url(instance.file.url)
+        service = get_drive_service()
+        change_file_settings(service, file_id)
 
 
 @receiver(post_delete, sender=Project_SC)

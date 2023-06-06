@@ -2,10 +2,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.shortcuts import get_list_or_404, HttpResponse
-from django.db.models import Q
-from django.core import serializers
+from django.contrib import messages
 
 from biblioteca_SC.models import Project_SC
 from biblioteca_SC.utils.driver_connection import get_id_from_url
@@ -26,18 +23,11 @@ class IndexView(View):
     def get_projects(self, request):
         proyectos_list = self.model.objects.get_queryset().order_by("periodo")
         paginator = Paginator(proyectos_list, self.row_for_page)
-        pagina = request.GET.get("pagina    ")
+        pagina = request.GET.get("pagina")
         return paginator.get_page(pagina)
 
     def get(self, request, *args, **kwargs):
         context = {}
-
-        print(
-            "➡ request :",
-        )
-        print("➡ args :", args)
-        print("➡ kwargs :", kwargs)
-        # if kwargs.get("q"):
 
         proyectos = self.get_projects(request)
         context["proyectos"] = proyectos
@@ -47,6 +37,7 @@ class IndexView(View):
             context["proyectos"] = Project_SC.objects.filter(titulo__icontains=if_query)
 
         if request.GET.get("next"):
+            messages.warning(request, "No se puede acceder, por favor inicie sesión para ver si tiene acceso.")
             context["showFormLogin"] = "show"
 
         form_filter1 = self.form_filter1()
@@ -74,8 +65,11 @@ class IndexView(View):
             data = form_login.cleaned_data
             user = authenticate(email=data["email"], password=data["password"])
             if user:
+                messages.info(request, "Inicio de sesión exitoso")
                 login(request, user)
                 return redirect("main:home")
+            else:
+                messages.error(request, "Correo o contraseña incorrecta")
 
         context["proyectos"] = proyectos
         return render(request, self.template_name, context=context)

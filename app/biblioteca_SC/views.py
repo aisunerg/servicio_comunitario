@@ -2,8 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import FormView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -34,32 +33,24 @@ class RegisterProjectView(LoginRequiredMixin, FormView):
 
         if form.is_valid():
             if kwargs.get("id"):
-                return self.update_element(form, kwargs.get("id"))
+                return self.update_element(request, form, kwargs.get("id"))
             else:
-                return self.form_valid(form)
-
-            # return self.render_to_response(self.get_context_data(form=form))
+                return self.form_valid(request, form)
 
         else:
-            print("➡ form :", form)
             return self.render_to_response(self.get_context_data(form=form))
-            # return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def form_valid(self, request, form):
         project = self.model(**form.cleaned_data)
         project.coordinador = self.request.user
         project.area = self.request.user.area
         project.save()
+        messages.success(request, "Proyecto cargado correctamente.")
         return redirect(self.success_url)
 
-    def update_element(self, form, id):
+    def update_element(self, request, form, id):
         data = form.cleaned_data
         model = self.model.objects.get(id=id)
-        print("➡ data :", data)
-
-        print(model.id)
-
-        print("➡ self.request.user.area :", self.request.user.area)
 
         model.titulo = data["titulo"]
         model.autor = data["autor"]
@@ -75,51 +66,44 @@ class RegisterProjectView(LoginRequiredMixin, FormView):
             data.pop("file")
 
         model.save(update_fields=list(data.keys()))
-        # self.model.objects.filter(id=id).update(**data)
+        messages.success(request, "Proyecto actualizado correctamente.")
 
         return redirect("biblioteca:register-project-edit", id=id)
 
 
 class EditProjectView(LoginRequiredMixin, View):
-    # success_url = reverse_lazy("biblioteca:register-project-edit")
     success_url = "biblioteca:register-project-edit"
     template_name = "edit_project.biblioteca_sc.html"
 
     def get(self, request, *args, **kwargs):
         form = EditProjectForm(request=request)
+        messages.info(request, "Seleccione un proyecto para proceder a editar.")
         return render(request, self.template_name, {"form": form})
 
     def post(self, request, *args, **kwargs):
         form = EditProjectForm(request.POST, request=request)
         if form.is_valid():
             data = form.cleaned_data
-
             return redirect(self.success_url, id=data["projects"].id)
-            print("➡ form :", form.cleaned_data)
-            # Save the form and redirect
 
-        #     return redirect('success_url')
         return render(request, self.template_name, {"form": form})
 
 
 class DeleteProjectView(LoginRequiredMixin, View):
-    # success_url = reverse_lazy("biblioteca:register-project-edit")
     model = Project_SC
     success_url = "biblioteca:delete-project"
     template_name = "delete_project.biblioteca_sc.html"
 
     def get(self, request, *args, **kwargs):
         form = EditProjectForm(request=request)
+        messages.info(request, "Seleccione un proyecto para proceder a eliminar.")
         return render(request, self.template_name, {"form": form})
 
     def post(self, request, *args, **kwargs):
         form = EditProjectForm(request.POST, request=request)
         if form.is_valid():
             data = form.cleaned_data
-
-            # return redirect(self.success_url, id=data["projects"].id)
             self.model.objects.get(id=data["projects"].id).delete()
-            print("➡ Se elimino correctamente")
-            # Save the form and redirect
+            messages.success(request, "Proyecto eliminado correctamente.")
 
         return redirect(self.success_url)
