@@ -1,5 +1,6 @@
 
 FROM python:3.10-slim
+RUN apt-get -y install libpq-dev gcc
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
