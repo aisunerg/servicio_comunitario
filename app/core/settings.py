@@ -27,7 +27,8 @@ SECRET_KEY = "django-insecure-5$o&emovt-mv7w9u)lwubhdub_linlyu_c__$@p8p&6bgg$!zx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
+# ALLOWED_HOSTS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
+ALLOWED_HOSTS = ["biblioteca-unerg-sc-production.up.railway.app", "127.0.0.1"]
 # CSRF_TRUSTED_ORIGINS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
 
 
@@ -36,7 +37,8 @@ CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = False
 
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = ["https://biblioteca-unerg-sc-production.up.railway.app/"]
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
+# CSRF_TRUSTED_ORIGINS = ["https://biblioteca-unerg-sc-production.up.railway.app"]
 
 
 # Application definition
