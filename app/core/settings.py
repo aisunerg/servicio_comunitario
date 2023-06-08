@@ -28,6 +28,7 @@ SECRET_KEY = "django-insecure-5$o&emovt-mv7w9u)lwubhdub_linlyu_c__$@p8p&6bgg$!zx
 DEBUG = False
 
 ALLOWED_HOSTS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
+CSRF_TRUSTED_ORIGINS = ["https://biblioteca-unerg-sc-production.up.railway.app/"]
 
 
 # Application definition
