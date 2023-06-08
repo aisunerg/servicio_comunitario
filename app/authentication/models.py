@@ -18,6 +18,10 @@ class Rol(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name = "Rol"
+        verbose_name_plural = "Roles"
+
 
 class AuthUser(AbstractUser):
     first_name = None
@@ -25,10 +29,10 @@ class AuthUser(AbstractUser):
 
     username = models.CharField(max_length=255, blank=True, null=True)
 
-    nombre_1 = models.CharField(max_length=50, blank=True, null=True)
-    nombre_2 = models.CharField(max_length=50, blank=True, null=True)
-    apellido_1 = models.CharField(max_length=50, blank=True, null=True)
-    apellido_2 = models.CharField(max_length=50, blank=True, null=True)
+    nombre_1 = models.CharField("Primer Nombre", max_length=50, blank=True, null=True)
+    nombre_2 = models.CharField("Segundo Nombre", max_length=50, blank=True, null=True)
+    apellido_1 = models.CharField("Primer Apellido", max_length=50, blank=True, null=True)
+    apellido_2 = models.CharField("Segundo Apellido", max_length=50, blank=True, null=True)
 
     tipo_documentacion = models.CharField(max_length=1, blank=True, null=True)
     cedula = models.CharField("Cedula", max_length=8, unique=True, blank=True, null=True)

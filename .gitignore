@@ -8,6 +8,8 @@ __pycache__/
 
 data
 
+staticfiles/
+
 # Distribution / packaging
 .Python
 build/

@@ -38,6 +38,10 @@ class Project_SC(models.Model):
     def __str__(self):
         return self.titulo
 
+    class Meta:
+        verbose_name = "Proyecto de servicio comunitario"
+        verbose_name_plural = "Proyectos de servicio comunitario"
+
 
 @receiver(pre_save, sender=Project_SC)
 def delete_file_before(sender, instance, **kwargs):

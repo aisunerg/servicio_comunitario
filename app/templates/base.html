@@ -197,11 +197,18 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'main:home' %}">Catalogo</a>
               </li>
-              {% if user.is_authenticated %}
+              {% if user.is_staff %}
                 <!-- Nav item 3 Panel de control-->
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'biblioteca:register-project' %}">Panel</a>
+                  <a class="nav-link" href="{% url 'admin:index' %}">Panel administrativo</a>
                 </li>
+              {% else %}
+                {% if user.is_authenticated %}
+                  <!-- Nav item 3 Panel de control-->
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'biblioteca:register-project' %}">Panel</a>
+                  </li>
+                {% endif %}
               {% endif %}
             </ul>
           </div>
@@ -340,9 +347,9 @@
     </div>
     <!-- ======================= JS libraries, plugins and custom scripts -->
     <!-- JQuery JS -->
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="{% static 'libs/jquery/jquery-3.7.0.min.js' %}"></script>
     <!-- Bootstrap JS -->
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- Template Functions -->
     <script src="{% static 'js/functions.js' %}"></script>
     <!-- Toasts js -->

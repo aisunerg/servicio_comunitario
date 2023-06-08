@@ -97,3 +97,20 @@ class DocumentDetailView(View):
 
         context = {"form_login": form_login, "proyecto": proyecto, "file_url": file_url}
         return render(request, self.template_name, context=context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+
+        form_login = self.form_login(request.POST)
+
+        if form_login.is_valid():
+            data = form_login.cleaned_data
+            user = authenticate(email=data["email"], password=data["password"])
+            if user:
+                messages.info(request, "Inicio de sesión exitoso")
+                login(request, user)
+                return redirect("main:home")
+            else:
+                messages.error(request, "Correo o contraseña incorrecta")
+
+        return redirect("main:document")
