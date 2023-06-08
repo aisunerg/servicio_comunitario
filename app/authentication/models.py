@@ -1,8 +1,9 @@
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
-from django.utils import timezone
 from django.db import models
+
+from django.db.models.signals import pre_save, post_save, post_delete
+from django.dispatch import receiver
 
 
 class Area(models.Model):
@@ -51,3 +52,17 @@ class AuthUser(AbstractUser):
 
     def __str__(self):
         return "{} {}, C.I{}, Area: {}, Rol: {}".format(self.nombre_1, self.apellido_1, self.cedula, self.area, self.rol)
+
+
+@receiver(pre_save, sender=AuthUser)
+def delete_file_before(sender, instance, **kwargs):
+    try:
+        obj = sender.objects.get(id=instance.id)
+
+        if instance.password == obj.password:
+            instance.set_password(obj.password)
+        else:
+            instance.set_password(instance.password)
+
+    except:
+        pass
