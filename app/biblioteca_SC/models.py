@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.core.validators import FileExtensionValidator
 
 
 from authentication.models import AuthUser, Area
@@ -17,23 +18,23 @@ gd_storage = GoogleDriveStorage()
 class Project_SC(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    titulo = models.CharField(max_length=200, blank=True, null=True)
-    autor = models.CharField(max_length=200, blank=True, null=True)
-    tematica = models.CharField(max_length=200, blank=True, null=True)
-    tutor = models.CharField(max_length=200, blank=True, null=True)
-    periodo = models.CharField(max_length=200, blank=True, null=True)
+    titulo = models.CharField(max_length=200)
+    autor = models.CharField(max_length=200)
+    tematica = models.CharField(max_length=200)
+    tutor = models.CharField(max_length=200)
+    periodo = models.CharField(max_length=200)
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, blank=True, null=True)
 
     tipo_proyecto = models.CharField(
-        max_length=4, choices=[("SC", "Servicio Comunitario"), ("PreG", "Pre-Grado"), ("PosG", "Post-Grado")], default="SC", blank=True, null=True
+        max_length=4, choices=[("SC", "Servicio Comunitario"), ("PreG", "Pre-Grado"), ("PosG", "Post-Grado")], default="SC"
     )
 
     coordinador = models.ForeignKey(AuthUser, on_delete=models.SET_NULL, blank=True, null=True)
 
     resumen = models.TextField(blank=True, null=True)
-    ubicacion_servicio = models.CharField(max_length=200, blank=True, null=True)
+    ubicacion_servicio = models.CharField(max_length=200)
 
-    file = models.FileField(upload_to="./projects", storage=gd_storage, blank=True, null=True)
+    file = models.FileField(upload_to="./projects", storage=gd_storage, validators=[FileExtensionValidator(allowed_extensions=["pdf", "png"])])
 
     def __str__(self):
         return self.titulo
