@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .forms import EditProjectForm, RegisterProjectForm
-from .models import Project_SC
+from .models import Project_SC, Tutores
 
 
 # Create your views here.
@@ -19,17 +19,20 @@ class RegisterProjectView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("biblioteca:register-project")
 
     def get(self, request, *args, **kwargs):
+
         if kwargs.get("id"):
             project = Project_SC.objects.get(id=kwargs.get("id"))
-            form = self.form_class(data=project.__dict__)
+            form = self.form_class(data=project.__dict__,request=request)
 
         else:
-            form = self.form_class()
+            form = self.form_class(request=request)
+
 
         return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
+
 
         if form.is_valid():
             if kwargs.get("id"):
@@ -52,9 +55,10 @@ class RegisterProjectView(LoginRequiredMixin, FormView):
         data = form.cleaned_data
         model = self.model.objects.get(id=id)
 
+        # area = usuario.tutor
+
         model.titulo = data["titulo"]
         model.autor = data["autor"]
-        model.tematica = data["tematica"]
         model.tutor = data["tutor"]
         model.periodo = data["periodo"]
         model.resumen = data["resumen"]

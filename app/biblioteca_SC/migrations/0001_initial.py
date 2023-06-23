@@ -22,7 +22,6 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('titulo', models.CharField(blank=True, max_length=200, null=True)),
                 ('autor', models.CharField(blank=True, max_length=200, null=True)),
-                ('tematica', models.CharField(blank=True, max_length=200, null=True)),
                 ('tutor', models.CharField(blank=True, max_length=200, null=True)),
                 ('periodo', models.CharField(blank=True, max_length=200, null=True)),
                 ('area', models.CharField(blank=True, max_length=200, null=True)),
