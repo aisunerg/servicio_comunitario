@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
 from django.db import models
@@ -11,9 +12,17 @@ class Area(models.Model):
 
     def __str__(self):
         return self.nombre
-    
-class Tutores(models.Model):
 
+
+class Programa(models.Model):
+    nombre = models.CharField("Nombre del area", unique=True)
+    area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.nombre
+
+
+class Tutores(models.Model):
     nombre_1 = models.CharField("Primer Nombre", max_length=50, blank=True, null=True)
     nombre_2 = models.CharField("Segundo Nombre", max_length=50, blank=True, null=True)
     apellido_1 = models.CharField("Primer Apellido", max_length=50, blank=True, null=True)
@@ -24,9 +33,13 @@ class Tutores(models.Model):
 
     area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
 
-
     def __str__(self):
-        return self.nombre_1 +' '+ self.apellido_1
+        return self.nombre_1 + " " + self.apellido_1
+
+    class Meta:
+        verbose_name = "Tutor"
+        verbose_name_plural = "Tutores"
+
 
 class Rol(models.Model):
     nombre = models.CharField("Nombre del rol administrativo", unique=True)
@@ -42,8 +55,6 @@ class Rol(models.Model):
 class AuthUser(AbstractUser):
     first_name = None
     last_name = None
-
-    # username = models.CharField(max_length=255, blank=True, null=True)
     username = None
 
     nombre_1 = models.CharField("Primer Nombre", max_length=50)
@@ -51,16 +62,13 @@ class AuthUser(AbstractUser):
     apellido_1 = models.CharField("Primer Apellido", max_length=50)
     apellido_2 = models.CharField("Segundo Apellido", max_length=50)
 
-    # tipo_documentacion = models.CharField(max_length=1, blank=True, null=True)
-    tipo_documentacion = models.CharField(max_length=4, choices=[("V", "Venezolano")], default="V")
+    tipo_documentacion = models.CharField(max_length=1, choices=[("V", "Venezolano")], default="V")
     cedula = models.CharField("Cedula", max_length=8, unique=True)
 
     email = models.EmailField("Correo Electronico", unique=True, max_length=255)
 
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, null=True)
     rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True)
-
-    # create_date = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["tipo_documentacion", "cedula", "username"]
@@ -72,14 +80,17 @@ class AuthUser(AbstractUser):
 
 
 @receiver(pre_save, sender=AuthUser)
-def delete_file_before(sender, instance, **kwargs):
-    try:
-        obj = sender.objects.get(id=instance.id)
-
-        if instance.password == obj.password:
-            instance.set_password(obj.password)
+def pre_save_auth(sender, instance, **kwargs):
+    if instance.pk is None:
+        # Es un nuevo usuario, por lo que se debe hashear la contraseña
+        instance.password = make_password(instance.password)
+    else:
+        # Es un usuario existente, por lo que se debe verificar si la contraseña ha sido actualizada
+        try:
+            user = sender.objects.get(pk=instance.pk)
+        except sender.DoesNotExist:
+            pass  # El usuario no existe todavía
         else:
-            instance.set_password(instance.password)
-
-    except:
-        pass
+            if user.password != instance.password:
+                # La contraseña ha sido actualizada, por lo que se debe hashear la nueva contraseña
+                instance.password = make_password(instance.password)
