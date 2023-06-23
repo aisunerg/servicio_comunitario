@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 
 
-from authentication.models import AuthUser, Area
+from authentication.models import AuthUser, Area, Tutores
 from gdstorage.storage import GoogleDriveStorage
 
 from django.db.models.signals import pre_save, post_save, post_delete
@@ -13,16 +13,20 @@ from .utils.driver_connection import get_id_from_url, get_drive_service, change_
 # Define Google Drive Storage
 gd_storage = GoogleDriveStorage()
 
+periodo=[]
+
+for i in range(2000, 2051):
+    periodo.extend([(f"{i}-1",f"{i}-1")])
+    periodo.extend([(f"{i}-2",f"{i}-2")])
 
 class Project_SC(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     titulo = models.CharField(max_length=200, blank=True, null=True)
     autor = models.CharField(max_length=200, blank=True, null=True)
-    tematica = models.CharField(max_length=200, blank=True, null=True)
-    tutor = models.CharField(max_length=200, blank=True, null=True)
-    periodo = models.CharField(max_length=200, blank=True, null=True)
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, blank=True, null=True)
+    tutor = models.ForeignKey(Tutores, on_delete=models.SET_NULL, blank=True, null=True)
+    periodo = models.CharField("Periodos del area", choices=periodo, null=False, blank=False,max_length=6)
 
     tipo_proyecto = models.CharField(
         max_length=4, choices=[("SC", "Servicio Comunitario"), ("PreG", "Pre-Grado"), ("PosG", "Post-Grado")], default="SC", blank=True, null=True

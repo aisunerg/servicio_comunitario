@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
-from .models import Area, Rol, AuthUser
+from .models import Area, Rol, AuthUser, Tutores
 from django.contrib.auth.models import Group
 from admin_interface.models import Theme
 
@@ -10,6 +10,8 @@ from admin_interface.models import Theme
 # admin.site.register(Rol)
 admin.site.unregister(Group)
 admin.site.unregister(Theme)
+# admin.site.unregister(Theme)
+admin.site.register(Tutores)
 
 
 @register(AuthUser)
