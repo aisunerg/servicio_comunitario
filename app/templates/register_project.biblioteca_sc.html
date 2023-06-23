@@ -14,9 +14,7 @@
                   <!-- Profile info -->
                   <div class="col-sm-12 col-md text-center text-md-start d-md-flex justify-content-between align-items-center">
                     <div>
-                      <h4 class="my-1">
-                        {{ user.nombre_1 }} {{ user.nombre_2 }} {{ user.apellido_1 }} {{ user.apellido_2 }} 
-                      </h4>
+                      <h4 class="my-1">{{ user.nombre_1 }} {{ user.nombre_2 }} {{ user.apellido_1 }} {{ user.apellido_2 }}</h4>
                       <ul class="list-inline">
                         <li class="list-inline-item">
                           <i class="bi bi-person-fill me-1"></i> {{ user.rol }}
@@ -51,36 +49,65 @@
                 <div class="mb-3">
                   <label class="form-label">Título</label>
                   {{ form.titulo|add_class:"form-control" }}
+                  {% if form.titulo.errors %}
+                    {% for error in form.titulo.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project author -->
                 <div class="mb-3">
                   <label class="form-label">Autor/res</label>
                   {{ form.autor|add_class:"form-control" }}
+                  {% if form.autor.errors %}
+                    {% for error in form.autor.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project tutor -->
                 <div class="mb-3">
                   <label class="form-label">Tutor/res</label>
                   {{ form.tutor|add_class:"form-control" }}
+                  {% if form.tutor.errors %}
+                    {% for error in form.tutor.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project period -->
                 <div class="mb-3">
                   <label class="form-label">Período</label>
                   {{ form.periodo|add_class:"form-control" }}
+                  {% if form.periodo.errors %}
+                    {% for error in form.periodo.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
+                </div>
+                <!-- Project theme -->
+                <div class="mb-3">
+                  <label class="form-label">Tematica</label>
+                  {{ form.tematica|add_class:"form-control" }}
+                  {% if form.tematica.errors %}
+                    {% for error in form.tematica.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project file -->
                 <div class="mb-3">
                   <label class="form-label">Documento</label>
                   {{ form.file|add_class:"form-control" }}
+                  {% if form.file.errors %}
+                    {% for error in form.file.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project summary -->
                 <div class="mb-3">
                   <label class="form-label">Resumen</label>
                   {{ form.resumen|add_class:"form-control"|attr:"rows:5" }}
+                  {% if form.resumen.errors %}
+                    {% for error in form.resumen.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Project service_location -->
                 <div class="mb-3">
                   <label class="form-label">Ubicación del servicio</label>
                   {{ form.ubicacion_servicio|add_class:"form-control" }}
+                  {% if form.ubicacion_servicio.errors %}
+                    {% for error in form.ubicacion_servicio.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
+                  {% endif %}
                 </div>
                 <!-- Save button -->
                 <div class="d-flex justify-content-end mt-4">
@@ -89,7 +116,6 @@
               </div>
             </form>
             <!-- Profile END -->
-
           </div>
           <!-- Left sidebar END -->
           <!-- Right sidebar START -->
@@ -101,15 +127,16 @@
               </div>
               <div class="card-body">
                 <div class="flex flex-column d-flex">
-                  <a href="{% url 'biblioteca:register-project' %}" class="btn btn-outline-primary">Cargar Proyecto</a>
-                  <a href="{% url 'biblioteca:edit-project' %}" class="btn btn-outline-primary">Editar Proyecto</a>
-                  <a href="{% url 'biblioteca:delete-project' %}" class="btn btn-outline-danger">Borrar Proyecto</a>
-
+                  <a href="{% url 'biblioteca:register-project' %}"
+                     class="btn btn-outline-primary">Cargar Proyecto</a>
+                  <a href="{% url 'biblioteca:edit-project' %}"
+                     class="btn btn-outline-primary">Editar Proyecto</a>
+                  <a href="{% url 'biblioteca:delete-project' %}"
+                     class="btn btn-outline-danger">Borrar Proyecto</a>
                 </div>
               </div>
             </div>
             <!-- Profile Setting END -->
-
           </div>
           <!-- Right sidebar END -->
         </div>

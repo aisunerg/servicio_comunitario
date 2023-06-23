@@ -41,7 +41,7 @@
           <!-- Left sidebar START -->
           <div class="col-lg-7 col-xxl-8">
             <!-- Registrar START -->
-            <form method="post" enctype="multipart/form-data" class="card border mb-4">
+            <form method="post" enctype="multipart/form-data" class="card border mb-4" onsubmit="return confirm('¿Está seguro de que desea eliminar el proyecto?');">
               {% csrf_token %}
               <div class="card-header border-bottom p-3">
                 <h5 class="card-header-title mb-0">Proyecto</h5>
@@ -51,7 +51,7 @@
                 <div class="mb-3">
                   <label class="form-label">Seleccione un Proyecto</label>
                   {{ form.projects|add_class:"form-control" }}
-                </div>
+                </div> 
                 <!-- Go button -->
                 <div class="d-flex justify-content-end mt-4">
                   <button type="submit" class="btn btn-danger">Eliminar</button>
