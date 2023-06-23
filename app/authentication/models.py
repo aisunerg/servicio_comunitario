@@ -11,7 +11,22 @@ class Area(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Tutores(models.Model):
 
+    nombre_1 = models.CharField("Primer Nombre", max_length=50, blank=True, null=True)
+    nombre_2 = models.CharField("Segundo Nombre", max_length=50, blank=True, null=True)
+    apellido_1 = models.CharField("Primer Apellido", max_length=50, blank=True, null=True)
+    apellido_2 = models.CharField("Segundo Apellido", max_length=50, blank=True, null=True)
+
+    tipo_documentacion = models.CharField(max_length=1, choices=[("V", "Venezolano")], default="V")
+    cedula = models.CharField("Cedula", max_length=8, unique=True, blank=True, null=True)
+
+    area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+    def __str__(self):
+        return self.nombre_1 +' '+ self.apellido_1
 
 class Rol(models.Model):
     nombre = models.CharField("Nombre del rol administrativo", unique=True)

@@ -23,7 +23,7 @@
                           <i class="bi bi-geo-alt me-1"></i> {{ user.area }}
                         </li>
                         <li class="list-inline-item">
-                          <i class="bi bi-calendar2-plus me-1"></i> Ultimo inicio de sesion {{ user.last_login }}
+                          <i class="bi bi-calendar2-plus me-1"></i> Último inicio de sesión {{ user.last_login }}
                         </li>
                       </ul>
                       <p class="m-0"></p>
@@ -47,7 +47,7 @@
               <div class="card-body">
                 <!-- Project title -->
                 <div class="mb-3">
-                  <label class="form-label">Titulo</label>
+                  <label class="form-label">Título</label>
                   {{ form.titulo|add_class:"form-control" }}
                   {% if form.titulo.errors %}
                     {% for error in form.titulo.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
@@ -71,7 +71,7 @@
                 </div>
                 <!-- Project period -->
                 <div class="mb-3">
-                  <label class="form-label">Periodo</label>
+                  <label class="form-label">Período</label>
                   {{ form.periodo|add_class:"form-control" }}
                   {% if form.periodo.errors %}
                     {% for error in form.periodo.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
@@ -103,7 +103,7 @@
                 </div>
                 <!-- Project service_location -->
                 <div class="mb-3">
-                  <label class="form-label">Ubicacion del servicio</label>
+                  <label class="form-label">Ubicación del servicio</label>
                   {{ form.ubicacion_servicio|add_class:"form-control" }}
                   {% if form.ubicacion_servicio.errors %}
                     {% for error in form.ubicacion_servicio.errors %}<strong class="text-danger">{{ error|escape }}</strong>{% endfor %}
@@ -111,7 +111,7 @@
                 </div>
                 <!-- Save button -->
                 <div class="d-flex justify-content-end mt-4">
-                  <button type="submit" class="btn btn-primary">Subir proyecto</button>
+                  <button type="submit" class="btn btn-primary">Subir Proyecto</button>
                 </div>
               </div>
             </form>
@@ -123,7 +123,7 @@
             <!-- Project Setting START -->
             <div class="card border mb-4">
               <div class="card-header border-bottom p-3">
-                <h5 class="card-header-title mb-0">Configuracion de proyectos</h5>
+                <h5 class="card-header-title mb-0">Configuración de Proyectos</h5>
               </div>
               <div class="card-body">
                 <div class="flex flex-column d-flex">
