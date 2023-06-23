@@ -1,16 +1,16 @@
-from django.shortcuts import redirect, render
-from django.views import View
 from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.db.models import Q
+from django.views import View
 
-from biblioteca_SC.models import Project_SC
 from biblioteca_SC.utils.driver_connection import get_id_from_url
+from biblioteca_SC.models import Project_SC
 from authentication.forms import LoginForm
 from .forms import FilterForm
 
 
-# Create your views here.
 class IndexView(View):
     form_login = LoginForm
     form_filter1 = FilterForm
@@ -20,15 +20,22 @@ class IndexView(View):
     template_name = "index.main.html"
     model = Project_SC
 
-    def get_projects(self, request):
-
-        if_query = request.GET.get("filter")
-        if if_query:
-            proyectos_list = Project_SC.objects.filter(titulo__icontains=if_query)
+    def get_projects(self, request, is_project=None):
+        if not is_project:
+            if_query = request.GET.get("filter")
+            if if_query:
+                proyectos_list = Project_SC.objects.filter(
+                    Q(titulo__icontains=if_query)
+                    | Q(ubicacion_servicio__icontains=if_query)
+                    | Q(tematica__icontains=if_query)
+                    | Q(periodo__icontains=if_query)
+                )
+            else:
+                proyectos_list = self.model.objects.get_queryset().order_by("periodo")
+            paginator = Paginator(proyectos_list, self.row_for_page)
         else:
-            proyectos_list = self.model.objects.get_queryset().order_by("periodo")
+            paginator = Paginator(is_project, self.row_for_page)
 
-        paginator = Paginator(proyectos_list, self.row_for_page)
         pagina = request.GET.get("pagina")
         return paginator.get_page(pagina)
 
@@ -60,12 +67,15 @@ class IndexView(View):
         form_filter1 = self.form_filter1(request.POST)
         context["form_login"] = form_login
         context["form_filter1"] = form_filter1
-
         proyectos = self.get_projects(request)
 
+        print("➡ form_filter1 :", form_filter1.errors)
         if form_filter1.is_valid():
             data = form_filter1.cleaned_data
-            proyectos = self.model.objects.filter(area__in=data["areas"])
+            print("➡ data :", data)
+            proyectos_area = self.model.objects.filter(Q(area__in=data["areas"]) | Q(programa__in=data["programas"]))
+            print("➡ proyectos_area :", proyectos_area)
+            proyectos = self.get_projects(request, proyectos_area)
 
         if form_login.is_valid():
             data = form_login.cleaned_data
@@ -79,10 +89,6 @@ class IndexView(View):
 
         context["proyectos"] = proyectos
         return render(request, self.template_name, context=context)
-        # return redirect("main:home")
-
-    # def post(self, request, *args, **kwargs):
-    #     return HttpResponse('POST request!')
 
 
 class DocumentDetailView(View):
