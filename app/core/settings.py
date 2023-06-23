@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +27,24 @@ SECRET_KEY = "django-insecure-5$o&emovt-mv7w9u)lwubhdub_linlyu_c__$@p8p&6bgg$!zx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
+ALLOWED_HOSTS = ["biblioteca-unerg-sc-production.up.railway.app", "127.0.0.1"]
+# CSRF_TRUSTED_ORIGINS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
+
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = False
+
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
+# CSRF_TRUSTED_ORIGINS = ["https://biblioteca-unerg-sc-production.up.railway.app"]
 
 
 # Application definition
 INSTALLED_APPS = [
+    "admin_interface",
+    "colorfield",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -37,12 +52,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "gdstorage",
+    "widget_tweaks",
     "biblioteca_SC",
     "authentication",
+    "main",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -62,6 +81,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.template.context_processors.csrf",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -74,22 +94,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("PGDATABASE", default="postgres"),
+        "USER": config("PGUSER", default="postgres"),
+        "PASSWORD": config("PGPASSWORD", default="postgres"),
+        "HOST": config("PGHOST", default="localhost"),
+        "PORT": config("PGPORT", default="5432"),
     }
 }
 
@@ -116,19 +128,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = "es-ve"
+TIME_ZONE = "America/Caracas"
 
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = "static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,3 +151,9 @@ AUTH_USER_MODEL = "authentication.AuthUser"
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = "./configuration/credentials.json"
 GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "datadjango"
+
+LOGIN_URL = "/"
+
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]

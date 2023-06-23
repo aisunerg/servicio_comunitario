@@ -6,8 +6,15 @@ from .models import AuthUser
 
 class LoginForm(forms.Form):
 
-    email = forms.EmailField(label="Correo Electronico")
-    password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class':'form-control',
+        'placeholder':'E-mail'}) )
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+        'class':'form-control',
+        'placeholder':'*********'
+        }
+    ))
     # forms.PasswordInput
 
     # class Meta:
