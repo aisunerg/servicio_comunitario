@@ -63,37 +63,39 @@
                   <!-- Divider -->
                   <hr class="my-0" />
                   <!-- Divider -->
-                  <!-- Periodo START -->
+                  <!-- Programa START -->
                   <div class="card card-body">
                     <!-- Title -->
-                    <h6 class="mb-2">Período</h6>
-                    <!-- Periodo group -->
+                    <h6 class="mb-3">Programa</h6>
+                    <!-- Area group -->
                     <div class="col-12">
-                      <!-- Checkbox -->
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="periodoType1" />
-                        <label class="form-check-label" for="periodoType1">Shimano</label>
-                      </div>
-                      <!-- Collapse body -->
-                      <div class="multi-collapse collapse" id="periodoCollapes">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="periodoType2" />
-                          <label class="form-check-label" for="periodoType2">Wizxo</label>
+                      {% for index_check in form_filter1.programas %}
+                        {% if forloop.counter < 5 %}
+                          <!-- Checkbox -->
+                          <div>{{ index_check }}</div>
+                        {% endif %}
+                      {% endfor %}
+                      {% if form_filter1.programas|length > 4 %}
+                        <div class="multi-collapse collapse" id="areaCollapes">
+                          {% for index_check in form_filter1.programas %}
+                            {% if forloop.counter > 4 %}
+                              <!-- Checkbox -->
+                              <div>{{ index_check }}</div>
+                            {% endif %}
+                          {% endfor %}
                         </div>
-                      </div>
-                      <!-- Collapse button -->
-                      <a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed"
-                         data-bs-toggle="collapse"
-                         href="#periodoCollapes"
-                         role="button"
-                         aria-expanded="false"
-                         aria-controls="periodoCollapes">
-                        See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fas fa-angle-down ms-2"></i>
-                      </a>
+                        <a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed"
+                           data-bs-toggle="collapse"
+                           href="#areaCollapes"
+                           role="button"
+                           aria-expanded="false"
+                           aria-controls="areaCollapes">
+                          Mostrar <span class="see-more ms-1">Mas</span><span class="see-less ms-1">Menos</span><i class="fas fa-angle-down ms-2"></i>
+                        </a>
+                      {% endif %}
                     </div>
                   </div>
-                  <!-- Periodo END -->
+                  <!-- Programa END -->
                   <hr class="my-0" />
                   <!-- Divider -->
                 </div>
