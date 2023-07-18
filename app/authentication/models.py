@@ -15,7 +15,7 @@ class Area(models.Model):
 
 
 class Programa(models.Model):
-    nombre = models.CharField("Nombre del area", unique=True)
+    nombre = models.CharField("Nombre del programa", unique=True)
     area = models.ForeignKey(Area, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Rol(models.Model):
 class AuthUser(AbstractUser):
     first_name = None
     last_name = None
-    username = None
+    username = models.CharField(max_length=250, unique=True)
 
     nombre_1 = models.CharField("Primer Nombre", max_length=50)
     nombre_2 = models.CharField("Segundo Nombre", max_length=50)
@@ -81,6 +81,10 @@ class AuthUser(AbstractUser):
 
 @receiver(pre_save, sender=AuthUser)
 def pre_save_auth(sender, instance, **kwargs):
+    # Verifica si el usuario es un superusuario y evita hashear su contraseña automáticamente
+    if instance.is_superuser:
+        return
+
     if instance.pk is None:
         # Es un nuevo usuario, por lo que se debe hashear la contraseña
         instance.password = make_password(instance.password)
