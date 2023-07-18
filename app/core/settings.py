@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-5$o&emovt-mv7w9u)lwubhdub_linlyu_c__$@p8p&6bgg$!zx
 DEBUG = True
 
 # ALLOWED_HOSTS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
-ALLOWED_HOSTS = ["biblioteca-unerg-sc-production.up.railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["biblioteca-unerg-sc-production.up.railway.app", "127.0.0.1", "*"]
 # CSRF_TRUSTED_ORIGINS = ["*", "https://biblioteca-unerg-sc-production.up.railway.app/"]
 
 
@@ -150,7 +150,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "authentication.AuthUser"
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = "./configuration/credentials.json"
-GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "datadjango"
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "ProyectosBibliotecaServicioComunitario"
 
 LOGIN_URL = "/"
 

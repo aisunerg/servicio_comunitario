@@ -4,7 +4,7 @@ from django.urls import include, path
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("configuracion/administrativa", admin.site.urls),
+    path("configuracion/administrativa/", admin.site.urls),
     path("", include("main.urls"), name="main"),
     path("auth/", include("authentication.urls"), name="authentication"),
     path("biblioteca/", include("biblioteca_SC.urls"), name="biblioteca"),

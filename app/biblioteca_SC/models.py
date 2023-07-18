@@ -42,7 +42,11 @@ class Project_SC(models.Model):
     resumen = models.TextField(blank=True, null=True)
     ubicacion_servicio = models.CharField(max_length=200)
 
-    file = models.FileField(upload_to="./projects", storage=gd_storage, validators=[FileExtensionValidator(allowed_extensions=["pdf", "png"])])
+    file = models.FileField(
+        upload_to="./proyectos",
+        storage=gd_storage,
+        validators=[FileExtensionValidator(allowed_extensions=["pdf", "png", "jpg"])],
+    )
 
     def __str__(self):
         return self.titulo

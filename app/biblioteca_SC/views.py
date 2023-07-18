@@ -7,41 +7,68 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-from .forms import EditProjectForm, RegisterProjectForm
+from .forms import EditProjectForm, RegisterProjectForm, RegisterEditProjectForm
 from .models import Project_SC, Tutores
 
 
 # Create your views here.
 class RegisterProjectView(LoginRequiredMixin, FormView):
-    form_class = RegisterProjectForm
+    # form_class = RegisterProjectForm
     model = Project_SC
     template_name = "register_project.biblioteca_sc.html"
     success_url = reverse_lazy("biblioteca:register-project")
 
     def get(self, request, *args, **kwargs):
-
         if kwargs.get("id"):
             project = Project_SC.objects.get(id=kwargs.get("id"))
-            form = self.form_class(data=project.__dict__,request=request)
+
+            data = {
+                "titulo": project.titulo,
+                "autor": project.autor,
+                "tutor": project.tutor_id,
+                "tematica": project.tematica,
+                "periodo": project.periodo,
+                "programa": project.programa_id,
+                "resumen": project.resumen,
+                "ubicacion_servicio": project.ubicacion_servicio,
+            }
+
+            form = RegisterEditProjectForm(data=data, request=request)
 
         else:
-            form = self.form_class(request=request)
+            form = RegisterProjectForm(request=request)
 
-
+        print("➡ form :", form.data)
+        print("➡ form.is_valid :", form.is_valid())
+        print("➡ form.is_valid :", form.errors)
         return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
-
+        print("➡ request.POST :", request.POST)
+        if kwargs.get("id"):
+            form = RegisterEditProjectForm(request.POST, request.FILES, request=request)
+        else:
+            form = RegisterProjectForm(request.POST, request.FILES, request=request)
+        print("➡ form :", form.data)
+        print("➡ form.is_valid :", form.is_valid())
+        print("➡ form.is_valid :", form.errors)
+        # print("➡ form :", form)
 
         if form.is_valid():
             if kwargs.get("id"):
+                print(form.data)
                 return self.update_element(request, form, kwargs.get("id"))
             else:
                 return self.form_valid(request, form)
 
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
+        # else:
+        #     return redirect(self.success_url)
+
+        print(kwargs.get("id"))
+        if kwargs.get("id"):
+            return redirect("biblioteca:register-project-edit", id=kwargs.get("id"))
+        # else:
+        #     return redirect(self.success_url)
 
     def form_valid(self, request, form):
         project = self.model(**form.cleaned_data)
@@ -61,6 +88,7 @@ class RegisterProjectView(LoginRequiredMixin, FormView):
         model.autor = data["autor"]
         model.tutor = data["tutor"]
         model.periodo = data["periodo"]
+        model.tematica = data["tematica"]
         model.resumen = data["resumen"]
         model.ubicacion_servicio = data["ubicacion_servicio"]
 
